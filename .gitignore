@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+__pycache__/
+venv/
+.env
+
+# Sensitive files
+tokens
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs
+.next/
+out/
+dist/
+*.pyc
