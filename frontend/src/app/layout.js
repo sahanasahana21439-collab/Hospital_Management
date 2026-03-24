@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Hospital Management",
+  title: "Supreme Hospital Management",
   description: "Advanced Hospital Management System",
 };
 
