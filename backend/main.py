@@ -31,3 +31,11 @@ def root():
 @app.get("/health")
 def health_check():
     return {"status": "healthy"}
+
+@app.post("/signup")
+def signup(email: str):
+    return {"message": "User created successfully", "email": email}
+
+@app.post("/signin")
+def signin(email: str):
+    return {"message": "Signed in successfully", "token": "mock_jwt_token"}
