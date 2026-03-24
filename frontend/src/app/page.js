@@ -49,7 +49,7 @@ export default function Home() {
                 <label>Password</label>
                 <input type="password" placeholder="••••••••" required />
               </div>
-              <button type="submit" className="submit-btn">
+              <button type="submit" className="submit-btn submit-btn-green">
                 Sign In to Portal
               </button>
             </form>

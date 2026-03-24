@@ -183,6 +183,14 @@ body {
   transform: translateY(0);
 }
 
+.submit-btn-green {
+  background: #10B981;
+}
+
+.submit-btn-green:hover {
+  background: #059669;
+}
+
 /* Floating animation for decorative elements */
 .decoration {
   position: absolute;
