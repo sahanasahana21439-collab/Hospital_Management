@@ -15,7 +15,7 @@ export default function Home() {
         
         {/* Left Side: Information */}
         <div className="auth-info">
-          <h1>Nexus Health</h1>
+          <h1>Hospital Management</h1>
           <p>
             Experience the next generation of hospital management. Secure, fast, 
             and beautifully designed to keep patients and providers connected seamlessly.
