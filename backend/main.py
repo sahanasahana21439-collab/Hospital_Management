@@ -103,6 +103,22 @@ def root():
 def health_check():
     return {"status": "healthy"}
 
+@app.get("/db-test")
+def db_test():
+    conn = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT 1")
+        res = cursor.fetchone()
+        cursor.close()
+        return {"status": "connected", "result": res}
+    except Exception as e:
+        return {"status": "error", "detail": str(e)}
+    finally:
+        if conn:
+            conn.close()
+
 @app.post("/signup", status_code=status.HTTP_201_CREATED)
 def signup(user: UserCreate):
     conn = None
