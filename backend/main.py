@@ -80,7 +80,7 @@ class UserLogin(BaseModel):
 # --- Endpoints ---
 @app.get("/")
 def root():
-    return {"message": "Hospital Management System API is running"}
+    return {"message": "Hospital Management System API is running", "version": "0.1.5"}
 
 
 @app.get("/health")
