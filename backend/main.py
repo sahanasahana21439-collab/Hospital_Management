@@ -25,9 +25,16 @@ app = FastAPI(
 )
 
 # CORS — allow frontend origin
+origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://hospitalmanagement-phi.vercel.app",
+    "https://hospitalmanagement-sahanasahana21439s-projects.vercel.app",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Restrict to Vercel domain in production
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
