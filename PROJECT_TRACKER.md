@@ -85,7 +85,7 @@ Hospital management/
 
 *Steps will be appended here as the project progresses.*
 
-### Step 6 — Premium Hospital Dashboard UI ✅
+### Step 6 — Premium Dashboard & Production Deployment ✅
 **Date**: 2026-03-25
 **What was finalized**:
 - Designed and implemented a high-end glassmorphism Dashboard with a functional Sidebar.
@@ -93,6 +93,9 @@ Hospital management/
 - Implemented a "Recent Appointments" data table and Quick Actions panel.
 - Refined global CSS to support a hybrid layout (centered login vs. fluid dashboard).
 - Integrated JWT decoding to personalize the dashboard experience.
+- Pushed all changes to GitHub; application is now LIVE on Vercel and Render.
+- Frontend: https://frontend-310f1nw5i-sahanasahana21439-1976s-projects.vercel.app
+- Backend: https://hospital-management-api-7tat.onrender.com
 
 ---
 
