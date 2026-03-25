@@ -2,6 +2,7 @@
 Hospital Management System — Backend API
 Framework: FastAPI
 Hosting: Render
+Update: 2026-03-25 14:00 (Triggering redeploy for auth endpoints)
 """
 
 import os
