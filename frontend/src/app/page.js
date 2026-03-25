@@ -1,46 +1,78 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const [isSignIn, setIsSignIn] = useState(true);
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
+  const [isError, setIsError] = useState(false);
 
   const handleSignIn = async (e) => {
     e.preventDefault();
     setStatusMessage("Signing in...");
+    setIsError(false);
     
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://hospital-management-api-7tat.onrender.com";
-      const res = await fetch(`${apiUrl}/signin?email=${encodeURIComponent(email)}`, {
-        method: "POST"
+      const res = await fetch(`${apiUrl}/signin`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
       });
       const data = await res.json();
-      setStatusMessage(data.message || "Signed in!");
+      
+      if (res.ok) {
+        setStatusMessage(data.message || "Signed in!");
+        setIsError(false);
+        localStorage.setItem("token", data.access_token);
+        // Redirect to a dashboard
+        router.push("/dashboard");
+      } else {
+        setStatusMessage(data.detail || "Sign in failed");
+        setIsError(true);
+      }
     } catch (err) {
       setStatusMessage("Failed to connect to backend");
+      setIsError(true);
     }
   };
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     setStatusMessage("Creating account...");
+    setIsError(false);
     
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://hospital-management-api-7tat.onrender.com";
-      const res = await fetch(`${apiUrl}/signup?email=${encodeURIComponent(email)}`, {
-        method: "POST"
+      const res = await fetch(`${apiUrl}/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
       });
       const data = await res.json();
-      setStatusMessage(data.message || "Account created!");
+      
+      if (res.ok) {
+        setStatusMessage(data.message || "Account created! Please sign in.");
+        setIsError(false);
+        setIsSignIn(true);
+        setPassword("");
+      } else {
+        setStatusMessage(data.detail || "Sign up failed");
+        setIsError(true);
+      }
     } catch (err) {
       setStatusMessage("Failed to connect to backend");
+      setIsError(true);
     }
   };
 
   return (
     <>
+    <div className="centered-page">
       {/* Decorative background blur elements */}
       <div className="decoration decoration-1"></div>
       <div className="decoration decoration-2"></div>
@@ -74,7 +106,7 @@ export default function Home() {
           </div>
 
           {statusMessage && (
-            <div style={{ color: "#10B981", marginBottom: "1rem", fontWeight: "bold" }}>
+            <div style={{ color: isError ? "#EF4444" : "#10B981", marginBottom: "1rem", fontWeight: "bold" }}>
               {statusMessage}
             </div>
           )}
@@ -93,7 +125,13 @@ export default function Home() {
               </div>
               <div className="input-group">
                 <label>Password</label>
-                <input type="password" placeholder="••••••••" required />
+                <input 
+                  type="password" 
+                  placeholder="••••••••" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required 
+                />
               </div>
               <button type="submit" className="submit-btn submit-btn-green">
                 Sign In to Portal
@@ -117,7 +155,13 @@ export default function Home() {
               </div>
               <div className="input-group">
                 <label>Password</label>
-                <input type="password" placeholder="Create a strong password" required />
+                <input 
+                  type="password" 
+                  placeholder="Create a strong password" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required 
+                />
               </div>
               <button type="submit" className="submit-btn">
                 Create Account
@@ -127,6 +171,7 @@ export default function Home() {
         </div>
 
       </div>
+    </div>
     </>
   );
 }

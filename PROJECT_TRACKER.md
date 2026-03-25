@@ -71,3 +71,29 @@ Hospital management/
 ---
 
 *Steps will be appended here as the project progresses.*
+
+### Step 5 — Real Authentication (JWT & PostgreSQL) ✅
+**Date**: 2026-03-25
+**What was finalized**:
+- Added `bcrypt`, `PyJWT`, and `psycopg2-binary` to FastAPI backend.
+- Replaced mock endpoints with actual database interactions via Neon Postgres.
+- Implemented bcrypt password hashing for new users.
+- Dispensed secure JSON Web Tokens (JWT) for validated sign-in requests.
+- Updated Next.js frontend to securely send credentials and capture the `access_token` in `localStorage`.
+
+---
+
+*Steps will be appended here as the project progresses.*
+
+### Step 6 — Premium Hospital Dashboard UI ✅
+**Date**: 2026-03-25
+**What was finalized**:
+- Designed and implemented a high-end glassmorphism Dashboard with a functional Sidebar.
+- Added dynamic statistics cards for Patients, Appointments, Doctors, and Revenue.
+- Implemented a "Recent Appointments" data table and Quick Actions panel.
+- Refined global CSS to support a hybrid layout (centered login vs. fluid dashboard).
+- Integrated JWT decoding to personalize the dashboard experience.
+
+---
+
+*Steps will be appended here as the project progresses.*
