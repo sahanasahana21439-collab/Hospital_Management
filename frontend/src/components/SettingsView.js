@@ -31,12 +31,12 @@ export default function SettingsView() {
           <p className="text-muted-foreground mt-1">Manage your account preferences and application configuration</p>
         </div>
         <div className="flex gap-3">
-          <button className="px-5 py-2.5 bg-muted text-foreground rounded-xl hover:bg-muted/80 transition-colors font-medium border border-border shadow-sm">
+          <button className="px-5 py-2.5 bg-muted text-foreground rounded-xl hover:bg-muted/80 hover:scale-105 hover:shadow-md transition-all font-medium border border-border shadow-sm transform">
             Discard Changes
           </button>
           <button 
             onClick={handleSave}
-            className="px-5 py-2.5 bg-primary text-primary-foreground rounded-xl hover:opacity-90 transition-colors font-medium shadow-md flex items-center gap-2"
+            className="px-5 py-2.5 bg-primary text-primary-foreground rounded-xl hover:opacity-90 hover:scale-105 hover:shadow-lg transition-all font-medium shadow-md flex items-center gap-2 transform"
           >
             <span>💾</span> Save Configuration
           </button>
@@ -47,7 +47,7 @@ export default function SettingsView() {
         {/* Settings Navigation Sidebar */}
         <div className="w-full lg:w-64 flex-shrink-0">
           <div className="bg-card rounded-2xl border border-border p-3 shadow-sm sticky top-6">
-            <nav className="flex flex-col gap-1">
+            <nav className="flex flex-col gap-2">
               {[
                 { id: "profile", label: "Profile Information", icon: "👤" },
                 { id: "preferences", label: "App Preferences", icon: "🎨" },
@@ -57,13 +57,13 @@ export default function SettingsView() {
                 <button
                   key={item.id}
                   onClick={() => setActiveSegment(item.id)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left w-full ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all group w-full text-left ${
                     activeSegment === item.id 
-                      ? "bg-primary/10 text-primary border border-primary/20 shadow-inner" 
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground border border-transparent"
+                      ? "bg-primary/10 text-primary border border-primary/20 shadow-inner translate-x-1" 
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground border border-transparent hover:translate-x-1 hover:shadow-sm"
                   }`}
                 >
-                  <span className={activeSegment === item.id ? "opacity-100" : "opacity-70"}>{item.icon}</span>
+                  <span className={`transition-transform duration-300 ${activeSegment === item.id ? "opacity-100 scale-110" : "opacity-70 group-hover:scale-110 group-hover:opacity-100"}`}>{item.icon}</span>
                   {item.label}
                 </button>
               ))}
