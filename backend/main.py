@@ -59,6 +59,44 @@ def get_db_connection():
     conn.autocommit = True
     return conn
 
+# --- Initialize Database ---
+@app.on_event("startup")
+def startup_db_init():
+    conn = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        # Create users table if not exists
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS users (
+                id SERIAL PRIMARY KEY,
+                email VARCHAR(255) UNIQUE NOT NULL,
+                password_hash VARCHAR(255) NOT NULL,
+                role VARCHAR(50) NOT NULL DEFAULT 'patient',
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+            );
+        """)
+        # Create patients table if not exists
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS patients (
+                id SERIAL PRIMARY KEY,
+                full_name VARCHAR(255) NOT NULL,
+                date_of_birth DATE NOT NULL,
+                gender VARCHAR(20),
+                contact_number VARCHAR(20),
+                address TEXT,
+                medical_history TEXT,
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+            );
+        """)
+        print("Database tables initialized successfully.")
+        cursor.close()
+    except Exception as e:
+        print(f"Error initializing database: {e}")
+    finally:
+        if conn:
+            conn.close()
+
 # --- Security & Auth Utilities ---
 SECRET_KEY = os.getenv("JWT_SECRET", "super-secret-key-change-in-production")
 ALGORITHM = "HS256"
