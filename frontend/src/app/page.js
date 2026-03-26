@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function Home() {
   const router = useRouter();
@@ -72,7 +73,11 @@ export default function Home() {
 
   return (
     <>
-    <div className="centered-page">
+    <main className="centered-page">
+      <div style={{ position: 'fixed', top: '2rem', right: '2rem', zIndex: 100 }}>
+        <ThemeToggle />
+      </div>
+
       {/* Decorative background blur elements */}
       <div className="decoration decoration-1"></div>
       <div className="decoration decoration-2"></div>
@@ -171,7 +176,7 @@ export default function Home() {
         </div>
 
       </div>
-    </div>
+    </main>
     </>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -88,16 +89,17 @@ export default function Dashboard() {
             <h2>Hospital Dashboard</h2>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+            <ThemeToggle />
             <div style={{ position: 'relative' }}>
               <input 
                 type="text" 
                 placeholder="Search..." 
                 style={{
-                  background: 'rgba(255,255,255,0.05)',
+                  background: 'var(--surface)',
                   border: '1px solid var(--surface-border)',
                   borderRadius: '12px',
                   padding: '0.6rem 1rem 0.6rem 2.5rem',
-                  color: 'white',
+                  color: 'var(--text-primary)',
                   width: '240px'
                 }}
               />
@@ -174,8 +176,8 @@ export default function Dashboard() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <button className="submit-btn" style={{ margin: 0, padding: '0.75rem' }}>+ New Appointment</button>
-              <button className="submit-btn" style={{ margin: 0, padding: '0.75rem', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--surface-border)' }}>Register Patient</button>
-              <button className="submit-btn" style={{ margin: 0, padding: '0.75rem', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--surface-border)' }}>Generate Report</button>
+              <button className="submit-btn" style={{ margin: 0, padding: '0.75rem', background: 'var(--surface)', color: 'var(--text-primary)', border: '1px solid var(--surface-border)' }}>Register Patient</button>
+              <button className="submit-btn" style={{ margin: 0, padding: '0.75rem', background: 'var(--surface)', color: 'var(--text-primary)', border: '1px solid var(--surface-border)' }}>Generate Report</button>
             </div>
             <div style={{ marginTop: '2rem' }}>
               <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>System Health</h4>

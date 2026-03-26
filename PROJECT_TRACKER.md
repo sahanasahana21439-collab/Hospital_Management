@@ -85,16 +85,16 @@ Hospital management/
 
 *Steps will be appended here as the project progresses.*
 
-### Step 6 — Premium Dashboard & Production Deployment ✅
+### Step 6 — Premium Dashboard & Production Build Fix ✅
 **Date**: 2026-03-25
 **What was finalized**:
-- Designed and implemented a high-end glassmorphism Dashboard with a functional Sidebar.
-- Added dynamic statistics cards for Patients, Appointments, Doctors, and Revenue.
-- Implemented a "Recent Appointments" data table and Quick Actions panel.
-- Refined global CSS to support a hybrid layout (centered login vs. fluid dashboard).
-- Integrated JWT decoding to personalize the dashboard experience.
-- Pushed all changes to GitHub; application is now LIVE on Vercel and Render.
-- Frontend: https://frontend-310f1nw5i-sahanasahana21439-1976s-projects.vercel.app
+- Migrated to a new Neon Database with pooled connections.
+- Successfully applied the `users` table schema to the new DB.
+- Designed and implemented a high-end glassmorphism Dashboard.
+- Fixed the "Failed to connect to backend" error by explicitly configuring CORS origins for Vercel.
+- Verified that the `/signup` and `/signin` endpoints are correctly active and reachable in production.
+- Pushed all changes to GitHub; application is now LIVE and fully functional.
+- Frontend: https://hospitalmanagement-phi.vercel.app
 - Backend: https://hospital-management-api-7tat.onrender.com
 
 ---

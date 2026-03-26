@@ -16,10 +16,16 @@ export const metadata = {
   description: "Advanced Hospital Management System",
 };
 
+import { ThemeProvider } from "../context/ThemeContext";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
+       <body>
+         <ThemeProvider>
+           {children}
+         </ThemeProvider>
+       </body>
     </html>
   );
 }
