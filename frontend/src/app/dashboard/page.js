@@ -244,6 +244,8 @@ export default function Dashboard() {
         {activeTab === 'doctors' && <DoctorList />}
 
         {activeTab === 'appointments' && <AppointmentList />}
+
+        {activeTab === 'billing' && <BillingList />}
       </main>
 
       {showRegisterModal && (
