@@ -6,6 +6,7 @@ import ThemeToggle from "../../components/ThemeToggle";
 import RegisterPatient from "../../components/RegisterPatient";
 import NewAppointment from "../../components/NewAppointment";
 import GenerateReport from "../../components/GenerateReport";
+import PatientList from "../../components/PatientList";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -143,96 +144,119 @@ export default function Dashboard() {
         </section>
 
         {/* Dashboard Content Grid */}
-        <div className="dashboard-content-grid">
-          {/* Recent Appointments */}
-          <div className="content-card">
-            <div className="card-header">
-              <h3>Recent Appointments</h3>
-              <button style={{ background: 'none', border: 'none', color: 'var(--primary)', fontWeight: '600', cursor: 'pointer' }}>View All</button>
-            </div>
-            <table className="recent-table">
-              <thead>
-                <tr>
-                  <th>Patient</th>
-                  <th>Doctor</th>
-                  <th>Time</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {appointments.map((apt) => (
-                  <tr key={apt.id}>
-                    <td style={{ fontWeight: '500' }}>{apt.patient}</td>
-                    <td>{apt.doctor}</td>
-                    <td>{apt.time}</td>
-                    <td>
-                      <span className={`status-badge status-${apt.status.toLowerCase()}`}>
-                        {apt.status}
-                      </span>
-                    </td>
+        {activeTab === 'dashboard' && (
+          <div className="dashboard-content-grid animate-in fade-in duration-500">
+            {/* Recent Appointments */}
+            <div className="content-card">
+              <div className="card-header">
+                <h3>Recent Appointments</h3>
+                <button style={{ background: 'none', border: 'none', color: 'var(--primary)', fontWeight: '600', cursor: 'pointer' }}>View All</button>
+              </div>
+              <table className="recent-table">
+                <thead>
+                  <tr>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Time</th>
+                    <th>Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {appointments.map((apt) => (
+                    <tr key={apt.id}>
+                      <td style={{ fontWeight: '500' }}>{apt.patient}</td>
+                      <td>{apt.doctor}</td>
+                      <td>{apt.time}</td>
+                      <td>
+                        <span className={`status-badge status-${apt.status.toLowerCase()}`}>
+                          {apt.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
-          {/* Quick Actions / Activity Feed */}
-          <div className="content-card">
-            <div className="card-header">
-              <h3>Quick Actions</h3>
-            </div>
-            
-            {notification.message && (
-              <div style={{ 
-                padding: '0.75rem', 
-                background: notification.type === 'success' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
-                color: notification.type === 'success' ? '#10B981' : '#EF4444',
-                borderRadius: '8px',
-                marginBottom: '1rem',
-                fontSize: '0.875rem',
-                fontWeight: '600'
-              }}>
-                {notification.message}
+            {/* Quick Actions / Activity Feed */}
+            <div className="content-card">
+              <div className="card-header">
+                <h3>Quick Actions</h3>
               </div>
-            )}
+              
+              {notification.message && (
+                <div style={{ 
+                  padding: '0.75rem', 
+                  background: notification.type === 'success' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                  color: notification.type === 'success' ? '#10B981' : '#EF4444',
+                  borderRadius: '8px',
+                  marginBottom: '1rem',
+                  fontSize: '0.875rem',
+                  fontWeight: '600'
+                }}>
+                  {notification.message}
+                </div>
+              )}
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <button 
-                className="submit-btn" 
-                onClick={() => setShowAppointmentModal(true)}
-                style={{ margin: 0, padding: '0.75rem' }}
-              >
-                + New Appointment
-              </button>
-              <button 
-                className="submit-btn" 
-                onClick={() => setShowRegisterModal(true)}
-                style={{ margin: 0, padding: '0.75rem', background: 'var(--surface)', color: 'var(--text-primary)', border: '1px solid var(--surface-border)' }}
-              >
-                Register Patient
-              </button>
-              <button 
-                className="submit-btn" 
-                onClick={() => setShowReportModal(true)}
-                style={{ margin: 0, padding: '0.75rem', background: 'var(--surface)', color: 'var(--text-primary)', border: '1px solid var(--surface-border)' }}
-              >
-                Generate Report
-              </button>
-            </div>
-            {/* ... rest of the card ... */}
-            <div style={{ marginTop: '2rem' }}>
-              <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>System Health</h4>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem' }}>
-                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981' }}></div>
-                Database Online
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <button 
+                  className="submit-btn" 
+                  onClick={() => setShowAppointmentModal(true)}
+                  style={{ margin: 0, padding: '0.75rem' }}
+                >
+                  + New Appointment
+                </button>
+                <button 
+                  className="submit-btn" 
+                  onClick={() => setShowRegisterModal(true)}
+                  style={{ margin: 0, padding: '0.75rem', background: 'var(--surface)', color: 'var(--text-primary)', border: '1px solid var(--surface-border)' }}
+                >
+                  Register Patient
+                </button>
+                <button 
+                  className="submit-btn" 
+                  onClick={() => setShowReportModal(true)}
+                  style={{ margin: 0, padding: '0.75rem', background: 'var(--surface)', color: 'var(--text-primary)', border: '1px solid var(--surface-border)' }}
+                >
+                  Generate Report
+                </button>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', marginTop: '0.5rem' }}>
-                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981' }}></div>
-                API Services Active
+              <div style={{ marginTop: '2rem' }}>
+                <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>System Health</h4>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem' }}>
+                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981' }}></div>
+                  Database Online
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', marginTop: '0.5rem' }}>
+                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981' }}></div>
+                  API Services Active
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
+
+        {activeTab === 'patients' && <PatientList />}
+
+        {activeTab === 'doctors' && (
+          <div className="content-card p-12 text-center animate-in fade-in duration-500">
+            <h3 className="text-xl font-bold">Doctor Management</h3>
+            <p className="text-muted-foreground mt-2">Manage medical staff and specialties.</p>
+            <div className="mt-8 p-12 bg-muted/20 border border-dashed border-border rounded-2xl">
+              Coming soon! Feature currently in development.
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'appointments' && (
+          <div className="content-card p-12 text-center animate-in fade-in duration-500">
+            <h3 className="text-xl font-bold">Appointment Calendar</h3>
+            <p className="text-muted-foreground mt-2">View and manage the full hospital schedule.</p>
+            <div className="mt-8 p-12 bg-muted/20 border border-dashed border-border rounded-2xl">
+              Coming soon! Feature currently in development.
+            </div>
+          </div>
+        )}
       </main>
 
       {showRegisterModal && (
