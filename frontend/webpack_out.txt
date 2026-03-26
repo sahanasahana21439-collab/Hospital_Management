@@ -1,0 +1,20 @@
+⚠ Attempted to load @next/swc-win32-x64-msvc, but an error occurred: \\?\C:\Users\shara\OneDrive\Desktop\Hospital management\frontend\node_modules\@next\swc-win32-x64-msvc\next-swc.win32-x64-msvc.node is not a valid Win32 application.
+\\?\C:\Users\shara\OneDrive\Desktop\Hospital management\frontend\node_modules\@next\swc-win32-x64-msvc\next-swc.win32-x64-msvc.node
+  Skipping creating a lockfile at C:\Users\shara\OneDrive\Desktop\Hospital management\frontend\.next\lock because we're using WASM bindings
+▲ Next.js 16.2.1 (webpack)
+
+  Creating an optimized production build ...
+⚠ Attempted to load @next/swc-win32-x64-msvc, but an error occurred: \\?\C:\Users\shara\OneDrive\Desktop\Hospital management\frontend\node_modules\@next\swc-win32-x64-msvc\next-swc.win32-x64-msvc.node is not a valid Win32 application.
+\\?\C:\Users\shara\OneDrive\Desktop\Hospital management\frontend\node_modules\@next\swc-win32-x64-msvc\next-swc.win32-x64-msvc.node
+  Disabled SWC as replacement for Babel because of custom Babel configuration ".babelrc" https://nextjs.org/docs/messages/swc-disabled
+  `compiler` options in `next.config.js` will be ignored while using Babel https://nextjs.org/docs/messages/ignored-compiler-options
+  Using external babel configuration from C:\Users\shara\OneDrive\Desktop\Hospital management\frontend\.babelrc
+⚠ It looks like there is a custom Babel configuration that can be removed.
+Failed to compile.
+
+./src/app/layout.js:1:1
+Syntax error: "next/font" requires SWC although Babel is being used due to a custom babel config being present.
+Read more: https://nextjs.org/docs/messages/babel-font-loader-conflict
+
+
+> Build failed because of webpack errors
