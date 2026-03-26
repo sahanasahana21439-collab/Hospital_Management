@@ -7,6 +7,7 @@ import RegisterPatient from "../../components/RegisterPatient";
 import NewAppointment from "../../components/NewAppointment";
 import GenerateReport from "../../components/GenerateReport";
 import PatientList from "../../components/PatientList";
+import DoctorList from "../../components/DoctorList";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -238,15 +239,7 @@ export default function Dashboard() {
 
         {activeTab === 'patients' && <PatientList />}
 
-        {activeTab === 'doctors' && (
-          <div className="content-card p-12 text-center animate-in fade-in duration-500">
-            <h3 className="text-xl font-bold">Doctor Management</h3>
-            <p className="text-muted-foreground mt-2">Manage medical staff and specialties.</p>
-            <div className="mt-8 p-12 bg-muted/20 border border-dashed border-border rounded-2xl">
-              Coming soon! Feature currently in development.
-            </div>
-          </div>
-        )}
+        {activeTab === 'doctors' && <DoctorList />}
 
         {activeTab === 'appointments' && (
           <div className="content-card p-12 text-center animate-in fade-in duration-500">
