@@ -9,6 +9,7 @@ import GenerateReport from "../../components/GenerateReport";
 import PatientList from "../../components/PatientList";
 import DoctorList from "../../components/DoctorList";
 import AppointmentList from "../../components/AppointmentList";
+import BillingList from "../../components/BillingList";
 
 export default function Dashboard() {
   const router = useRouter();
