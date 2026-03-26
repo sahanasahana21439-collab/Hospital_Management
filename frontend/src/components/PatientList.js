@@ -81,6 +81,7 @@ export default function PatientList() {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-muted/50 border-b border-border">
+                  <th className="px-6 py-4 font-semibold text-sm text-center">Initial</th>
                   <th className="px-6 py-4 font-semibold text-sm">Patient Name</th>
                   <th className="px-6 py-4 font-semibold text-sm text-center">D.O.B</th>
                   <th className="px-6 py-4 font-semibold text-sm text-center">Gender</th>
@@ -92,13 +93,13 @@ export default function PatientList() {
               <tbody>
                 {filteredPatients.map((patient) => (
                   <tr key={patient.id} className="border-b border-border hover:bg-muted/30 transition-colors group">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
-                          {patient.full_name?.charAt(0)}
-                        </div>
-                        <span className="font-semibold text-foreground">{patient.full_name}</span>
+                    <td className="px-6 py-4 text-center">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold mx-auto">
+                        {patient.full_name?.charAt(0)}
                       </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className="font-semibold text-foreground whitespace-nowrap">{patient.full_name}</span>
                     </td>
                     <td className="px-6 py-4 text-center text-muted-foreground text-sm">{patient.date_of_birth}</td>
                     <td className="px-6 py-4 text-center">

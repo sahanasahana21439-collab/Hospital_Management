@@ -82,7 +82,8 @@ export default function AppointmentList() {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-muted/50 border-b border-border">
-                  <th className="px-6 py-5 font-bold text-sm uppercase tracking-wider">Patient</th>
+                  <th className="px-6 py-5 font-bold text-sm uppercase tracking-wider text-center">Initial</th>
+                  <th className="px-6 py-5 font-bold text-sm uppercase tracking-wider">Patient Name</th>
                   <th className="px-6 py-5 font-bold text-sm uppercase tracking-wider">Doctor</th>
                   <th className="px-6 py-5 font-bold text-sm uppercase tracking-wider text-center">Date</th>
                   <th className="px-6 py-5 font-bold text-sm uppercase tracking-wider text-center">Time</th>
@@ -94,13 +95,13 @@ export default function AppointmentList() {
               <tbody>
                 {filteredAppointments.map((apt) => (
                   <tr key={apt.id} className="border-b border-border hover:bg-muted/30 transition-all group">
-                    <td className="px-6 py-5">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
-                          {apt.patient_name?.[0].toUpperCase()}
-                        </div>
-                        <p className="font-bold text-foreground whitespace-nowrap">{apt.patient_name}</p>
+                    <td className="px-6 py-5 text-center">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold mx-auto border border-primary/20">
+                        {apt.patient_name?.[0].toUpperCase()}
                       </div>
+                    </td>
+                    <td className="px-6 py-5">
+                      <p className="font-bold text-foreground whitespace-nowrap">{apt.patient_name}</p>
                     </td>
                     <td className="px-6 py-5">
                       <span className="font-medium text-foreground whitespace-nowrap">{apt.doctor_name}</span>
