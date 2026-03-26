@@ -116,20 +116,34 @@ def startup_db_init():
         )
         print("Forced seeded test doctors.")
 
-        # Create appointments table if not exists
+        # Create billing table if not exists
         cursor.execute("""
-            CREATE TABLE IF NOT EXISTS appointments (
+            CREATE TABLE IF NOT EXISTS billing (
                 id SERIAL PRIMARY KEY,
                 patient_name VARCHAR(255) NOT NULL,
-                doctor_name VARCHAR(255) NOT NULL,
-                appointment_date DATE NOT NULL,
-                appointment_time TIME NOT NULL,
-                contact_number VARCHAR(20),
-                email_id VARCHAR(255),
-                status VARCHAR(50) DEFAULT 'Scheduled',
+                amount DECIMAL(10, 2) NOT NULL,
+                status VARCHAR(50) DEFAULT 'Pending',
+                method VARCHAR(50) DEFAULT 'Cash',
+                billing_date DATE DEFAULT CURRENT_DATE,
+                description TEXT,
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
             );
         """)
+
+        # Seeding billing records
+        billing_to_seed = [
+            ("sahana", 1250.00, "Paid", "Card", "General Consultation Fee"),
+            ("John Doe", 850.50, "Pending", "Cash", "Blood Test & Pharmacy"),
+            ("Jane Smith", 3200.00, "Paid", "Insurance", "MRI Scan - Lumbar Spine")
+        ]
+        # Check if billing has records before seeding
+        cursor.execute("SELECT COUNT(*) FROM billing")
+        if cursor.fetchone()['count'] == 0:
+            cursor.executemany(
+                "INSERT INTO billing (patient_name, amount, status, method, description) VALUES (%s, %s, %s, %s, %s)",
+                billing_to_seed
+            )
+            print("Seeded test billing records.")
 
         print("Database tables initialized successfully.")
         cursor.close()
@@ -192,7 +206,7 @@ class AppointmentCreate(BaseModel):
 # --- Endpoints ---
 @app.get("/")
 def root():
-    return {"message": "Hospital Management System API is running", "version": "0.2.3"}
+    return {"message": "Hospital Management System API is running", "version": "0.2.4"}
 
 
 @app.get("/health")
@@ -382,6 +396,22 @@ def get_appointments():
         apts = cursor.fetchall()
         cursor.close()
         return apts
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        if conn:
+            conn.close()
+
+@app.get("/billing")
+def get_billing():
+    conn = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM billing ORDER BY created_at DESC LIMIT 100")
+        records = cursor.fetchall()
+        cursor.close()
+        return records
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     finally:
