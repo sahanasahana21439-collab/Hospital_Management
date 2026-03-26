@@ -89,6 +89,46 @@ def startup_db_init():
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
             );
         """)
+        
+        # Create doctors table if not exists
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS doctors (
+                id SERIAL PRIMARY KEY,
+                name VARCHAR(255) NOT NULL,
+                specialty VARCHAR(255),
+                email VARCHAR(255),
+                contact_number VARCHAR(20)
+            );
+        """)
+
+        # Create appointments table if not exists
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS appointments (
+                id SERIAL PRIMARY KEY,
+                patient_name VARCHAR(255) NOT NULL,
+                doctor_name VARCHAR(255) NOT NULL,
+                appointment_date DATE NOT NULL,
+                appointment_time TIME NOT NULL,
+                contact_number VARCHAR(20),
+                email_id VARCHAR(255),
+                status VARCHAR(50) DEFAULT 'Scheduled',
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+            );
+        """)
+
+        # Seed doctors if empty
+        cursor.execute("SELECT COUNT(*) FROM doctors")
+        count = cursor.fetchone()['count']
+        if count == 0:
+            cursor.execute("""
+                INSERT INTO doctors (name, specialty) VALUES
+                ('Dr. Sarah Smith', 'Cardiology'),
+                ('Dr. Robert Jones', 'Neurology'),
+                ('Dr. Jane Doe', 'Pediatrics'),
+                ('Dr. Michael Wilson', 'Orthopedics')
+            """)
+            print("Seeded test doctors.")
+
         print("Database tables initialized successfully.")
         cursor.close()
     except Exception as e:
@@ -138,6 +178,14 @@ class PatientCreate(BaseModel):
     contact_number: Optional[str] = None
     address: Optional[str] = None
     medical_history: Optional[str] = None
+
+class AppointmentCreate(BaseModel):
+    patient_name: str
+    doctor_name: str
+    appointment_date: str
+    appointment_time: str
+    contact_number: Optional[str] = None
+    email_id: Optional[str] = None
 
 # --- Endpoints ---
 @app.get("/")
@@ -280,6 +328,60 @@ def get_patients():
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error fetching patients: {str(e)}"
         )
+    finally:
+        if conn:
+            conn.close()
+
+@app.get("/doctors")
+def get_doctors():
+    conn = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM doctors ORDER BY name")
+        doctors = cursor.fetchall()
+        cursor.close()
+        return doctors
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        if conn:
+            conn.close()
+
+@app.post("/appointments", status_code=status.HTTP_201_CREATED)
+def create_appointment(appointment: AppointmentCreate):
+    conn = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            INSERT INTO appointments (patient_name, doctor_name, appointment_date, appointment_time, contact_number, email_id)
+            VALUES (%s, %s, %s, %s, %s, %s)
+            RETURNING id
+            """,
+            (appointment.patient_name, appointment.doctor_name, appointment.appointment_date, appointment.appointment_time, appointment.contact_number, appointment.email_id)
+        )
+        new_apt = cursor.fetchone()
+        return {"message": "Appointment scheduled successfully", "appointment_id": new_apt["id"]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error scheduling appointment: {str(e)}")
+    finally:
+        if conn:
+            conn.close()
+
+@app.get("/appointments")
+def get_appointments():
+    conn = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM appointments ORDER BY appointment_date, appointment_time LIMIT 100")
+        apts = cursor.fetchall()
+        cursor.close()
+        return apts
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
     finally:
         if conn:
             conn.close()

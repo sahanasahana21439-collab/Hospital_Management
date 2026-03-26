@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ThemeToggle from "../../components/ThemeToggle";
 import RegisterPatient from "../../components/RegisterPatient";
+import NewAppointment from "../../components/NewAppointment";
 
 export default function Dashboard() {
   const router = useRouter();
   const [userEmail, setUserEmail] = useState("");
   const [activeTab, setActiveTab] = useState("dashboard");
   const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [showAppointmentModal, setShowAppointmentModal] = useState(false);
   const [notification, setNotification] = useState({ message: '', type: '' });
 
   useEffect(() => {
@@ -193,7 +195,13 @@ export default function Dashboard() {
             )}
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <button className="submit-btn" style={{ margin: 0, padding: '0.75rem' }}>+ New Appointment</button>
+              <button 
+                className="submit-btn" 
+                onClick={() => setShowAppointmentModal(true)}
+                style={{ margin: 0, padding: '0.75rem' }}
+              >
+                + New Appointment
+              </button>
               <button 
                 className="submit-btn" 
                 onClick={() => setShowRegisterModal(true)}
@@ -222,6 +230,16 @@ export default function Dashboard() {
       {showRegisterModal && (
         <RegisterPatient 
           onClose={() => setShowRegisterModal(false)} 
+          onSuccess={(msg) => {
+            setNotification({ message: msg, type: 'success' });
+            setTimeout(() => setNotification({ message: '', type: '' }), 5000);
+          }}
+        />
+      )}
+
+      {showAppointmentModal && (
+        <NewAppointment 
+          onClose={() => setShowAppointmentModal(false)} 
           onSuccess={(msg) => {
             setNotification({ message: msg, type: 'success' });
             setTimeout(() => setNotification({ message: '', type: '' }), 5000);
