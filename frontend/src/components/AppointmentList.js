@@ -84,9 +84,11 @@ export default function AppointmentList() {
                 <tr className="bg-muted/50 border-b border-border">
                   <th className="px-6 py-5 font-bold text-sm uppercase tracking-wider">Patient</th>
                   <th className="px-6 py-5 font-bold text-sm uppercase tracking-wider">Doctor</th>
-                  <th className="px-6 py-5 font-bold text-sm uppercase tracking-wider text-center">Date & Time</th>
+                  <th className="px-6 py-5 font-bold text-sm uppercase tracking-wider text-center">Date</th>
+                  <th className="px-6 py-5 font-bold text-sm uppercase tracking-wider text-center">Time</th>
                   <th className="px-6 py-5 font-bold text-sm uppercase tracking-wider text-center">Status</th>
-                  <th className="px-6 py-5 font-bold text-sm uppercase tracking-wider text-right">Contact</th>
+                  <th className="px-6 py-5 font-bold text-sm uppercase tracking-wider">Contact</th>
+                  <th className="px-6 py-5 font-bold text-sm uppercase tracking-wider">Email</th>
                 </tr>
               </thead>
               <tbody>
@@ -97,31 +99,28 @@ export default function AppointmentList() {
                         <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
                           {apt.patient_name?.[0].toUpperCase()}
                         </div>
-                        <p className="font-bold text-foreground">{apt.patient_name}</p>
+                        <p className="font-bold text-foreground whitespace-nowrap">{apt.patient_name}</p>
                       </div>
                     </td>
                     <td className="px-6 py-5">
-                      <div className="flex flex-col">
-                        <span className="font-medium text-foreground">{apt.doctor_name}</span>
-                        <span className="text-xs text-muted-foreground opacity-70">Medical Consultant</span>
-                      </div>
+                      <span className="font-medium text-foreground whitespace-nowrap">{apt.doctor_name}</span>
                     </td>
                     <td className="px-6 py-5 text-center">
-                      <div className="flex flex-col items-center">
-                        <span className="font-mono text-sm">{apt.appointment_date}</span>
-                        <span className="text-xs text-primary font-semibold">{apt.appointment_time}</span>
-                      </div>
+                      <span className="font-mono text-sm whitespace-nowrap">{apt.appointment_date}</span>
                     </td>
                     <td className="px-6 py-5 text-center">
-                      <span className={`px-4 py-1.5 rounded-full text-xs font-bold border ${getStatusBadgeClass(apt.status)} shadow-sm`}>
+                      <span className="text-xs text-primary font-bold whitespace-nowrap uppercase">{apt.appointment_time}</span>
+                    </td>
+                    <td className="px-6 py-5 text-center">
+                      <span className={`px-4 py-1.5 rounded-full text-xs font-bold border ${getStatusBadgeClass(apt.status)} shadow-sm whitespace-nowrap`}>
                         {apt.status || 'Scheduled'}
                       </span>
                     </td>
-                    <td className="px-6 py-5 text-right">
-                      <div className="flex flex-col items-end">
-                        <span className="text-sm font-medium">{apt.contact_number || "N/A"}</span>
-                        <span className="text-xs text-muted-foreground truncate max-w-[150px]">{apt.email_id || "N/A"}</span>
-                      </div>
+                    <td className="px-6 py-5">
+                      <span className="text-sm font-medium whitespace-nowrap">{apt.contact_number || "N/A"}</span>
+                    </td>
+                    <td className="px-6 py-5">
+                      <span className="text-xs text-muted-foreground truncate max-w-[200px] inline-block">{apt.email_id || "N/A"}</span>
                     </td>
                   </tr>
                 ))}
