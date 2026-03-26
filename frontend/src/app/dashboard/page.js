@@ -10,6 +10,7 @@ import PatientList from "../../components/PatientList";
 import DoctorList from "../../components/DoctorList";
 import AppointmentList from "../../components/AppointmentList";
 import BillingList from "../../components/BillingList";
+import SettingsView from "../../components/SettingsView";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -246,6 +247,8 @@ export default function Dashboard() {
         {activeTab === 'appointments' && <AppointmentList />}
 
         {activeTab === 'billing' && <BillingList />}
+
+        {activeTab === 'settings' && <SettingsView />}
       </main>
 
       {showRegisterModal && (
