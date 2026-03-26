@@ -89,8 +89,8 @@ def startup_db_init():
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
             );
         """)
-        
-        # Create doctors table if not exists
+             # Update doctors table to include new fields
+        cursor.execute("DROP TABLE IF EXISTS doctors")
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS doctors (
                 id SERIAL PRIMARY KEY,
@@ -102,6 +102,19 @@ def startup_db_init():
                 availability TEXT DEFAULT 'Available'
             )
         ''')
+
+        # Seeding doctors
+        doctors_to_seed = [
+            ("Dr. Sarah Smith", "Cardiology", "sarah.smith@example.com", "555-0101", "2023-01-15", "Available"),
+            ("Dr. Robert Jones", "Neurology", "robert.jones@example.com", "555-0102", "2023-03-20", "On Call"),
+            ("Dr. Jane Doe", "Pediatrics", "jane.doe@example.com", "555-0103", "2023-05-10", "Available"),
+            ("Dr. Michael Wilson", "Orthopedics", "michael.wilson@example.com", "555-0104", "2023-08-01", "On Leave")
+        ]
+        cursor.executemany(
+            "INSERT INTO doctors (name, specialty, email, contact_number, date_of_joining, availability) VALUES (%s, %s, %s, %s, %s, %s)",
+            doctors_to_seed
+        )
+        print("Forced seeded test doctors.")
 
         # Create appointments table if not exists
         cursor.execute("""
@@ -117,22 +130,6 @@ def startup_db_init():
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
             );
         """)
-
-        # Seed doctors if empty
-        cursor.execute("SELECT COUNT(*) FROM doctors")
-        count = cursor.fetchone()['count']
-        if count == 0:
-            doctors_to_seed = [
-                ("Dr. Sarah Smith", "Cardiology", "sarah.smith@example.com", "555-0101", "2023-01-15", "Available"),
-                ("Dr. Robert Jones", "Neurology", "robert.jones@example.com", "555-0102", "2023-03-20", "On Call"),
-                ("Dr. Jane Doe", "Pediatrics", "jane.doe@example.com", "555-0103", "2023-05-10", "Available"),
-                ("Dr. Michael Wilson", "Orthopedics", "michael.wilson@example.com", "555-0104", "2023-08-01", "On Leave")
-            ]
-            cursor.executemany(
-                "INSERT INTO doctors (name, specialty, email, contact_number, date_of_joining, availability) VALUES (%s, %s, %s, %s, %s, %s)",
-                doctors_to_seed
-            )
-            print("Seeded test doctors.")
 
         print("Database tables initialized successfully.")
         cursor.close()
@@ -195,7 +192,7 @@ class AppointmentCreate(BaseModel):
 # --- Endpoints ---
 @app.get("/")
 def root():
-    return {"message": "Hospital Management System API is running", "version": "0.2.2"}
+    return {"message": "Hospital Management System API is running", "version": "0.2.3"}
 
 
 @app.get("/health")
