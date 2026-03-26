@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import ThemeToggle from "../../components/ThemeToggle";
 import RegisterPatient from "../../components/RegisterPatient";
 import NewAppointment from "../../components/NewAppointment";
+import GenerateReport from "../../components/GenerateReport";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -12,6 +13,7 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [showAppointmentModal, setShowAppointmentModal] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
   const [notification, setNotification] = useState({ message: '', type: '' });
 
   useEffect(() => {
@@ -209,7 +211,13 @@ export default function Dashboard() {
               >
                 Register Patient
               </button>
-              <button className="submit-btn" style={{ margin: 0, padding: '0.75rem', background: 'var(--surface)', color: 'var(--text-primary)', border: '1px solid var(--surface-border)' }}>Generate Report</button>
+              <button 
+                className="submit-btn" 
+                onClick={() => setShowReportModal(true)}
+                style={{ margin: 0, padding: '0.75rem', background: 'var(--surface)', color: 'var(--text-primary)', border: '1px solid var(--surface-border)' }}
+              >
+                Generate Report
+              </button>
             </div>
             {/* ... rest of the card ... */}
             <div style={{ marginTop: '2rem' }}>
@@ -244,6 +252,13 @@ export default function Dashboard() {
             setNotification({ message: msg, type: 'success' });
             setTimeout(() => setNotification({ message: '', type: '' }), 5000);
           }}
+        />
+      )}
+
+      {showReportModal && (
+        <GenerateReport 
+          isOpen={showReportModal} 
+          onClose={() => setShowReportModal(false)} 
         />
       )}
     </div>

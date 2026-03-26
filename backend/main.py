@@ -190,7 +190,7 @@ class AppointmentCreate(BaseModel):
 # --- Endpoints ---
 @app.get("/")
 def root():
-    return {"message": "Hospital Management System API is running", "version": "0.2.0"}
+    return {"message": "Hospital Management System API is running", "version": "0.2.1"}
 
 
 @app.get("/health")
@@ -380,6 +380,39 @@ def get_appointments():
         apts = cursor.fetchall()
         cursor.close()
         return apts
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        if conn:
+            conn.close()
+
+@app.get("/reports/summary")
+def get_report_summary():
+    conn = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # Total Patients
+        cursor.execute("SELECT COUNT(*) FROM patients")
+        patients_count = cursor.fetchone()['count']
+        
+        # Total Doctors
+        cursor.execute("SELECT COUNT(*) FROM doctors")
+        doctors_count = cursor.fetchone()['count']
+        
+        # Total Appointments (Scheduled)
+        cursor.execute("SELECT COUNT(*) FROM appointments WHERE status = 'Scheduled'")
+        appointments_count = cursor.fetchone()['count']
+        
+        cursor.close()
+        
+        return {
+            "total_patients": patients_count,
+            "total_doctors": doctors_count,
+            "scheduled_appointments": appointments_count,
+            "generated_at": datetime.datetime.now().isoformat()
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     finally:
