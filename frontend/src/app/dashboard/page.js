@@ -154,7 +154,7 @@ export default function Dashboard() {
             <div className="content-card">
               <div className="card-header">
                 <h3>Recent Appointments</h3>
-                <button style={{ background: 'none', border: 'none', color: 'var(--primary)', fontWeight: '600', cursor: 'pointer' }}>View All</button>
+                <button className="hover:scale-105 hover:opacity-80 transition-all origin-right" style={{ background: 'none', border: 'none', color: 'var(--primary)', fontWeight: '600', cursor: 'pointer' }}>View All</button>
               </div>
               <table className="recent-table">
                 <thead>
