@@ -93,6 +93,14 @@ class UserLogin(BaseModel):
     email: str
     password: str
 
+class PatientCreate(BaseModel):
+    full_name: str
+    date_of_birth: str
+    gender: Optional[str] = None
+    contact_number: Optional[str] = None
+    address: Optional[str] = None
+    medical_history: Optional[str] = None
+
 # --- Endpoints ---
 @app.get("/")
 def root():
@@ -189,6 +197,50 @@ def signin(user: UserLogin):
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Database error: {str(e)}"
+        )
+    finally:
+        if conn:
+            conn.close()
+
+@app.post("/patients", status_code=status.HTTP_201_CREATED)
+def create_patient(patient: PatientCreate):
+    conn = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            INSERT INTO patients (full_name, date_of_birth, gender, contact_number, address, medical_history)
+            VALUES (%s, %s, %s, %s, %s, %s)
+            RETURNING id, full_name
+            """,
+            (patient.full_name, patient.date_of_birth, patient.gender, patient.contact_number, patient.address, patient.medical_history)
+        )
+        new_patient = cursor.fetchone()
+        return {"message": "Patient registered successfully", "patient": new_patient}
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error registering patient: {str(e)}"
+        )
+    finally:
+        if conn:
+            conn.close()
+
+@app.get("/patients")
+def get_patients():
+    conn = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM patients ORDER BY created_at DESC LIMIT 50")
+        patients = cursor.fetchall()
+        cursor.close()
+        return patients
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error fetching patients: {str(e)}"
         )
     finally:
         if conn:

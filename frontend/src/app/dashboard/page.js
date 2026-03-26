@@ -3,11 +3,14 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ThemeToggle from "../../components/ThemeToggle";
+import RegisterPatient from "../../components/RegisterPatient";
 
 export default function Dashboard() {
   const router = useRouter();
   const [userEmail, setUserEmail] = useState("");
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [notification, setNotification] = useState({ message: '', type: '' });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -174,11 +177,33 @@ export default function Dashboard() {
             <div className="card-header">
               <h3>Quick Actions</h3>
             </div>
+            
+            {notification.message && (
+              <div style={{ 
+                padding: '0.75rem', 
+                background: notification.type === 'success' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                color: notification.type === 'success' ? '#10B981' : '#EF4444',
+                borderRadius: '8px',
+                marginBottom: '1rem',
+                fontSize: '0.875rem',
+                fontWeight: '600'
+              }}>
+                {notification.message}
+              </div>
+            )}
+
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <button className="submit-btn" style={{ margin: 0, padding: '0.75rem' }}>+ New Appointment</button>
-              <button className="submit-btn" style={{ margin: 0, padding: '0.75rem', background: 'var(--surface)', color: 'var(--text-primary)', border: '1px solid var(--surface-border)' }}>Register Patient</button>
+              <button 
+                className="submit-btn" 
+                onClick={() => setShowRegisterModal(true)}
+                style={{ margin: 0, padding: '0.75rem', background: 'var(--surface)', color: 'var(--text-primary)', border: '1px solid var(--surface-border)' }}
+              >
+                Register Patient
+              </button>
               <button className="submit-btn" style={{ margin: 0, padding: '0.75rem', background: 'var(--surface)', color: 'var(--text-primary)', border: '1px solid var(--surface-border)' }}>Generate Report</button>
             </div>
+            {/* ... rest of the card ... */}
             <div style={{ marginTop: '2rem' }}>
               <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>System Health</h4>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem' }}>
@@ -193,6 +218,16 @@ export default function Dashboard() {
           </div>
         </div>
       </main>
+
+      {showRegisterModal && (
+        <RegisterPatient 
+          onClose={() => setShowRegisterModal(false)} 
+          onSuccess={(msg) => {
+            setNotification({ message: msg, type: 'success' });
+            setTimeout(() => setNotification({ message: '', type: '' }), 5000);
+          }}
+        />
+      )}
     </div>
   );
 }
