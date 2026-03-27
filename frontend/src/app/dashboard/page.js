@@ -27,6 +27,8 @@ export default function Dashboard() {
     doctors: 18,
     revenue: 4250,
   });
+  
+  const [recentAppointments, setRecentAppointments] = useState([]);
 
   const fetchStats = async () => {
     try {
@@ -41,8 +43,14 @@ export default function Dashboard() {
           revenue: data.total_revenue,
         });
       }
+      
+      const aptResponse = await fetch(`${apiUrl}/appointments`);
+      if (aptResponse.ok) {
+        const aptData = await aptResponse.json();
+        setRecentAppointments(aptData.slice(0, 5));
+      }
     } catch (err) {
-      console.error("Failed to fetch dashboard stats", err);
+      console.error("Failed to fetch dashboard data", err);
     }
   };
 
@@ -84,13 +92,18 @@ export default function Dashboard() {
     { id: "billing", label: "Revenue Today", value: `₹${parseFloat(dashboardStats.revenue).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`, change: "+18%", up: true, icon: "💰", color: "#10B981" },
   ];
 
-  const appointments = [
-    { id: 1, patient: "John Cooper", doctor: "Dr. Sarah Smith", time: "09:30 AM", status: "Scheduled" },
-    { id: 2, patient: "Maria Garcia", doctor: "Dr. Robert Jones", time: "10:45 AM", status: "Completed" },
-    { id: 3, patient: "David Miller", doctor: "Dr. Sarah Smith", time: "01:15 PM", status: "Scheduled" },
-    { id: 4, patient: "Emma Wilson", doctor: "Dr. Jane Doe", time: "02:30 PM", status: "Cancelled" },
-    { id: 5, patient: "Michael Brown", doctor: "Dr. Robert Jones", time: "04:00 PM", status: "Scheduled" },
-  ];
+  const formatTime = (timeString) => {
+    if (!timeString) return "N/A";
+    let [hours, minutes] = timeString.split(':');
+    let ampm = 'AM';
+    let h = parseInt(hours, 10);
+    if (h >= 12) {
+      ampm = 'PM';
+      if (h > 12) h -= 12;
+    }
+    if (h === 0) h = 12;
+    return `${h}:${minutes} ${ampm}`;
+  };
 
   return (
     <div className="dashboard-container">
@@ -208,18 +221,24 @@ export default function Dashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {appointments.map((apt) => (
-                    <tr key={apt.id}>
-                      <td style={{ fontWeight: '500' }}>{apt.patient}</td>
-                      <td>{apt.doctor}</td>
-                      <td>{apt.time}</td>
-                      <td>
-                        <span className={`status-badge status-${apt.status.toLowerCase()}`}>
-                          {apt.status}
-                        </span>
-                      </td>
+                  {recentAppointments.length > 0 ? (
+                    recentAppointments.map((apt) => (
+                      <tr key={apt.id}>
+                        <td style={{ fontWeight: '500' }}>{apt.patient_name}</td>
+                        <td>{apt.doctor_name}</td>
+                        <td>{formatTime(apt.appointment_time)}</td>
+                        <td>
+                          <span className={`status-badge status-${(apt.status || 'Scheduled').toLowerCase()}`}>
+                            {apt.status || 'Scheduled'}
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="4" style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>No recent appointments found.</td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
