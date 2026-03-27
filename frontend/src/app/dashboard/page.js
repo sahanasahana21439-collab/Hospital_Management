@@ -32,7 +32,7 @@ export default function Dashboard() {
 
   const fetchStats = async () => {
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://hospital-management-api-7tat.onrender.com";
       const response = await fetch(`${apiUrl}/reports/summary`);
       if (response.ok) {
         const data = await response.json();
