@@ -88,22 +88,45 @@ export default function SettingsView() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-muted-foreground mb-2">Full Name</label>
-                  <input type="text" value={profile.name} onChange={(e) => setProfile({...profile, name: e.target.value})} className="w-full bg-background border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium" />
+              <div className="bg-muted/10 border border-border rounded-2xl overflow-hidden shadow-sm">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 border-b border-border hook-hover transition-colors">
+                  <div className="flex-1 md:pr-4">
+                    <label className="text-sm font-bold text-foreground block mb-1">Full Name</label>
+                    <p className="text-xs text-muted-foreground">The name displayed on your dashboard.</p>
+                  </div>
+                  <div className="flex-1 w-full mt-3 md:mt-0">
+                    <input type="text" value={profile.name} onChange={(e) => setProfile({...profile, name: e.target.value})} className="w-full max-w-md bg-background border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium" />
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-muted-foreground mb-2">Email Address</label>
-                  <input type="email" value={profile.email} onChange={(e) => setProfile({...profile, email: e.target.value})} className="w-full bg-background border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium" />
+
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 border-b border-border hook-hover transition-colors">
+                  <div className="flex-1 md:pr-4">
+                    <label className="text-sm font-bold text-foreground block mb-1">Email Address</label>
+                    <p className="text-xs text-muted-foreground">Used to log in and receive notifications.</p>
+                  </div>
+                  <div className="flex-1 w-full mt-3 md:mt-0">
+                    <input type="email" value={profile.email} onChange={(e) => setProfile({...profile, email: e.target.value})} className="w-full max-w-md bg-background border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium" />
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-muted-foreground mb-2">Role / Department</label>
-                  <input type="text" value={profile.role} disabled className="w-full bg-muted/50 border border-border rounded-xl px-4 py-3 text-sm text-muted-foreground font-medium cursor-not-allowed" />
+
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 border-b border-border bg-muted/20">
+                  <div className="flex-1 md:pr-4">
+                    <label className="text-sm font-bold text-foreground block mb-1">Role / Department</label>
+                    <p className="text-xs text-muted-foreground">Your assigned system permissions.</p>
+                  </div>
+                  <div className="flex-1 w-full mt-3 md:mt-0">
+                    <input type="text" value={profile.role} disabled className="w-full max-w-md bg-muted/50 border border-border rounded-xl px-4 py-2.5 text-sm text-muted-foreground font-medium cursor-not-allowed" />
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-muted-foreground mb-2">Contact Number</label>
-                  <input type="tel" value={profile.phone} onChange={(e) => setProfile({...profile, phone: e.target.value})} className="w-full bg-background border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium" />
+
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 hook-hover transition-colors">
+                  <div className="flex-1 md:pr-4">
+                    <label className="text-sm font-bold text-foreground block mb-1">Contact Number</label>
+                    <p className="text-xs text-muted-foreground">For critical SMS alerts.</p>
+                  </div>
+                  <div className="flex-1 w-full mt-3 md:mt-0">
+                    <input type="tel" value={profile.phone} onChange={(e) => setProfile({...profile, phone: e.target.value})} className="w-full max-w-md bg-background border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -113,43 +136,49 @@ export default function SettingsView() {
             <div className="p-8 animate-in fade-in zoom-in-95 duration-300">
               <h3 className="text-xl font-bold mb-6">Application Preferences</h3>
               
-              <div className="space-y-8">
-                <div>
-                  <label className="block text-sm font-bold mb-2">System Language</label>
-                  <p className="text-sm text-muted-foreground mb-4">Select the primary language for the dashboard interface.</p>
-                  <select className="w-full max-w-sm bg-background border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium appearance-none">
-                    <option>English (United States)</option>
-                    <option>Spanish (Español)</option>
-                    <option>French (Français)</option>
-                  </select>
-                </div>
-
-                <hr className="border-border" />
-
-                <div>
-                  <label className="block text-sm font-bold mb-2">Timezone</label>
-                  <p className="text-sm text-muted-foreground mb-4">Ensure all appointments and records match your local time.</p>
-                  <select className="w-full max-w-sm bg-background border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium appearance-none">
-                    <option>Eastern Time (EST/EDT)</option>
-                    <option>Central Time (CST/CDT)</option>
-                    <option>Pacific Time (PST/PDT)</option>
-                    <option>India Standard Time (IST)</option>
-                  </select>
-                </div>
-
-                <hr className="border-border" />
-
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-bold text-sm">Automated Data Backup</h4>
-                    <p className="text-sm text-muted-foreground mt-1">Regularly backup hospital patient and billing databases.</p>
+              <div className="bg-muted/10 border border-border rounded-2xl overflow-hidden shadow-sm">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 border-b border-border hook-hover transition-colors">
+                  <div className="flex-1 md:pr-4">
+                    <label className="text-sm font-bold text-foreground block mb-1">System Language</label>
+                    <p className="text-xs text-muted-foreground">Select the primary language for the dashboard interface.</p>
                   </div>
-                  <button 
-                    onClick={() => setAutoBackup(!autoBackup)}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 ${autoBackup ? 'bg-primary' : 'bg-muted border border-border'}`}
-                  >
-                    <span className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${autoBackup ? 'translate-x-5' : 'translate-x-0.5'}`} />
-                  </button>
+                  <div className="flex-1 w-full mt-3 md:mt-0">
+                    <select className="w-full max-w-md bg-background border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium appearance-none">
+                      <option>English (United States)</option>
+                      <option>Spanish (Español)</option>
+                      <option>French (Français)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 border-b border-border hook-hover transition-colors">
+                  <div className="flex-1 md:pr-4">
+                    <label className="text-sm font-bold text-foreground block mb-1">Timezone</label>
+                    <p className="text-xs text-muted-foreground">Ensure all appointments and records match your local time.</p>
+                  </div>
+                  <div className="flex-1 w-full mt-3 md:mt-0">
+                    <select className="w-full max-w-md bg-background border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium appearance-none">
+                      <option>Eastern Time (EST/EDT)</option>
+                      <option>Central Time (CST/CDT)</option>
+                      <option>Pacific Time (PST/PDT)</option>
+                      <option>India Standard Time (IST)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between p-6 hook-hover transition-colors">
+                  <div className="flex-1 md:pr-4">
+                    <label className="text-sm font-bold text-foreground block mb-1">Automated Data Backup</label>
+                    <p className="text-xs text-muted-foreground">Regularly backup patient and billing databases.</p>
+                  </div>
+                  <div>
+                    <button 
+                      onClick={() => setAutoBackup(!autoBackup)}
+                      className={`relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 ${autoBackup ? 'bg-primary' : 'bg-muted border border-border'}`}
+                    >
+                      <span className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${autoBackup ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -159,31 +188,35 @@ export default function SettingsView() {
             <div className="p-8 animate-in fade-in zoom-in-95 duration-300">
               <h3 className="text-xl font-bold mb-6">Notification Settings</h3>
               
-              <div className="space-y-6">
-                <div className="flex items-start justify-between p-4 bg-muted/30 rounded-xl border border-border hook-hover">
-                  <div>
-                    <h4 className="font-bold text-sm">Email Alerts</h4>
-                    <p className="text-sm text-muted-foreground mt-1">Receive daily summaries and critical system alerts via email.</p>
+              <div className="bg-muted/10 border border-border rounded-2xl overflow-hidden shadow-sm">
+                <div className="flex items-center justify-between p-6 border-b border-border hook-hover transition-colors">
+                  <div className="flex-1 md:pr-4">
+                    <h4 className="font-bold text-sm text-foreground">Email Alerts</h4>
+                    <p className="text-xs text-muted-foreground mt-1">Receive daily summaries and critical system alerts via email.</p>
                   </div>
-                  <button 
-                    onClick={() => setEmailAlerts(!emailAlerts)}
-                    className={`relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 ${emailAlerts ? 'bg-primary' : 'bg-muted border border-border'}`}
-                  >
-                    <span className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${emailAlerts ? 'translate-x-5' : 'translate-x-0.5'}`} />
-                  </button>
+                  <div>
+                    <button 
+                      onClick={() => setEmailAlerts(!emailAlerts)}
+                      className={`relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 ${emailAlerts ? 'bg-primary' : 'bg-muted border border-border'}`}
+                    >
+                      <span className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${emailAlerts ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                    </button>
+                  </div>
                 </div>
 
-                <div className="flex items-start justify-between p-4 bg-muted/30 rounded-xl border border-border hook-hover">
-                  <div>
-                    <h4 className="font-bold text-sm">SMS Notifications</h4>
-                    <p className="text-sm text-muted-foreground mt-1">Get instant text messages for urgent appointment cancellations.</p>
+                <div className="flex items-center justify-between p-6 hook-hover transition-colors">
+                  <div className="flex-1 md:pr-4">
+                    <h4 className="font-bold text-sm text-foreground">SMS Notifications</h4>
+                    <p className="text-xs text-muted-foreground mt-1">Get instant text messages for urgent appointment cancellations.</p>
                   </div>
-                  <button 
-                    onClick={() => setSmsAlerts(!smsAlerts)}
-                    className={`relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 ${smsAlerts ? 'bg-primary' : 'bg-muted border border-border'}`}
-                  >
-                    <span className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${smsAlerts ? 'translate-x-5' : 'translate-x-0.5'}`} />
-                  </button>
+                  <div>
+                    <button 
+                      onClick={() => setSmsAlerts(!smsAlerts)}
+                      className={`relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 ${smsAlerts ? 'bg-primary' : 'bg-muted border border-border'}`}
+                    >
+                      <span className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${smsAlerts ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -193,43 +226,47 @@ export default function SettingsView() {
             <div className="p-8 animate-in fade-in zoom-in-95 duration-300">
               <h3 className="text-xl font-bold mb-6">Security & Access</h3>
               
-              <div className="space-y-8">
-                <div className="flex items-center justify-between p-5 bg-blue-500/5 rounded-2xl border border-blue-500/20">
-                  <div className="flex flex-col gap-1">
+              <div className="bg-muted/10 border border-border rounded-2xl overflow-hidden shadow-sm">
+                <div className="flex items-center justify-between p-6 border-b border-border bg-blue-500/5 transition-colors">
+                  <div className="flex flex-col gap-1 flex-1 md:pr-4">
                     <h4 className="font-bold text-sm text-blue-500 flex items-center gap-2">
                       <span className="text-lg">🛡️</span> Two-Factor Authentication (2FA)
                     </h4>
-                    <p className="text-sm text-muted-foreground">Add an extra layer of security to your admin account.</p>
+                    <p className="text-xs text-muted-foreground mt-1">Add an extra layer of security to your admin account.</p>
                   </div>
-                  <button 
-                    onClick={() => setTwoFactor(!twoFactor)}
-                    className={`relative inline-flex h-7 w-14 flex-shrink-0 items-center rounded-full transition-colors ${twoFactor ? 'bg-blue-500' : 'bg-muted border border-border'}`}
-                  >
-                    <span className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform shadow-sm ${twoFactor ? 'translate-x-7' : 'translate-x-0.5'}`} />
-                  </button>
+                  <div>
+                    <button 
+                      onClick={() => setTwoFactor(!twoFactor)}
+                      className={`relative inline-flex h-7 w-14 flex-shrink-0 items-center rounded-full transition-colors ${twoFactor ? 'bg-blue-500' : 'bg-muted border border-border'}`}
+                    >
+                      <span className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform shadow-sm ${twoFactor ? 'translate-x-7' : 'translate-x-0.5'}`} />
+                    </button>
+                  </div>
                 </div>
 
-                <hr className="border-border" />
-
-                <div>
-                  <h4 className="font-bold text-sm mb-4">Change Password</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
-                    <input type="password" placeholder="Current Password" className="w-full bg-background border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" />
-                    <div className="hidden md:block"></div>
-                    <input type="password" placeholder="New Password" className="w-full bg-background border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" />
-                    <input type="password" placeholder="Confirm New Password" className="w-full bg-background border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" />
+                <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between p-6 border-b border-border transition-colors">
+                  <div className="flex-1 md:pr-4 mb-4 lg:mb-0">
+                    <h4 className="font-bold text-sm text-foreground block mb-1">Change Password</h4>
+                    <p className="text-xs text-muted-foreground">Keep your account secure by updating your password regularly.</p>
                   </div>
-                  <button className="mt-4 px-6 py-2.5 bg-foreground text-background font-medium rounded-xl hover:opacity-90 transition-opacity text-sm">Update Password</button>
+                  <div className="flex-1 w-full space-y-3">
+                    <input type="password" placeholder="Current Password" className="w-full max-w-md bg-background border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium" />
+                    <input type="password" placeholder="New Password" className="w-full max-w-md bg-background border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium" />
+                    <input type="password" placeholder="Confirm New Password" className="w-full max-w-md bg-background border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium" />
+                    <button className="px-5 py-2 mt-2 bg-foreground text-background font-medium rounded-xl hover:opacity-90 transition-opacity text-sm">Update Password</button>
+                  </div>
                 </div>
 
-                <hr className="border-border" />
-
-                <div>
-                  <h4 className="font-bold text-sm text-destructive mb-2">Danger Zone</h4>
-                  <p className="text-sm text-muted-foreground mb-4">Permanently delete your account and remove all personal configurations.</p>
-                  <button className="px-5 py-2.5 bg-destructive/10 text-destructive border border-destructive/20 font-bold rounded-xl hover:bg-destructive hover:text-white transition-colors text-sm">
-                    Delete Account
-                  </button>
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 bg-destructive/5 transition-colors">
+                  <div className="flex-1 md:pr-4 mb-4 md:mb-0">
+                    <h4 className="font-bold text-sm text-destructive block mb-1">Danger Zone</h4>
+                    <p className="text-xs text-muted-foreground">Permanently delete your account and remove all personal configurations.</p>
+                  </div>
+                  <div>
+                    <button className="px-5 py-2.5 bg-destructive/10 text-destructive border border-destructive/20 font-bold rounded-xl hover:bg-destructive hover:text-white transition-colors text-sm">
+                      Delete Account
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
