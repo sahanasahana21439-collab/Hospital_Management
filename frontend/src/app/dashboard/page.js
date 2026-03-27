@@ -49,7 +49,6 @@ export default function Dashboard() {
     { id: "doctors", label: "Doctors", icon: "👨‍⚕️" },
     { id: "appointments", label: "Appointments", icon: "📅" },
     { id: "billing", label: "Billing", icon: "💳" },
-    { id: "settings", label: "Settings", icon: "⚙️" },
   ];
 
   const stats = [
@@ -70,26 +69,39 @@ export default function Dashboard() {
   return (
     <div className="dashboard-container">
       {/* Sidebar */}
-      <aside className="sidebar">
-        <div className="sidebar-logo">
-          🏥 Supreme Health
-        </div>
-        <nav className="nav-menu">
-          {menuItems.map((item) => (
-            <div 
-              key={item.id}
-              className={`nav-item ${activeTab === item.id ? 'active' : ''}`}
-              onClick={() => setActiveTab(item.id)}
-            >
-              <span>{item.icon}</span>
-              {item.label}
-            </div>
-          ))}
-        </nav>
-        <div style={{ marginTop: 'auto' }}>
-          <div className="nav-item" onClick={handleLogout} style={{ color: '#EF4444' }}>
-            <span>🚪</span> Logout
+      <aside className="sidebar flex flex-col justify-between h-screen sticky top-0">
+        <div>
+          <div className="sidebar-logo">
+            🏥 Supreme Health
           </div>
+          <nav className="nav-menu">
+            {menuItems.map((item) => (
+              <button 
+                key={item.id}
+                className={`nav-item w-full text-left bg-transparent border-0 font-inherit ${activeTab === item.id ? 'active' : ''}`}
+                onClick={() => setActiveTab(item.id)}
+              >
+                <span>{item.icon}</span>
+                {item.label}
+              </button>
+            ))}
+          </nav>
+        </div>
+        
+        <div className="mt-auto pt-6 border-t border-surface-border">
+          <button 
+            className={`nav-item w-full text-left bg-transparent border-0 font-inherit mb-2 ${activeTab === 'settings' ? 'active' : ''}`}
+            onClick={() => setActiveTab('settings')}
+          >
+            <span>⚙️</span> Settings
+          </button>
+          <button 
+            className="nav-item w-full text-left bg-transparent border-0 font-inherit" 
+            onClick={handleLogout} 
+            style={{ color: '#EF4444' }}
+          >
+            <span>🚪</span> Logout
+          </button>
         </div>
       </aside>
 
