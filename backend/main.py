@@ -437,12 +437,18 @@ def get_report_summary():
         cursor.execute("SELECT COUNT(*) FROM appointments WHERE status = 'Scheduled'")
         appointments_count = cursor.fetchone()['count']
         
+        # Total Revenue
+        cursor.execute("SELECT SUM(amount) as total FROM billing WHERE status = 'Paid'")
+        rev = cursor.fetchone()['total']
+        total_revenue = float(rev) if rev else 0.0
+        
         cursor.close()
         
         return {
             "total_patients": patients_count,
             "total_doctors": doctors_count,
             "scheduled_appointments": appointments_count,
+            "total_revenue": total_revenue,
             "generated_at": datetime.datetime.now().isoformat()
         }
     except Exception as e:

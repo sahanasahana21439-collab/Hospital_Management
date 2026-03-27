@@ -20,6 +20,31 @@ export default function Dashboard() {
   const [showAppointmentModal, setShowAppointmentModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
   const [notification, setNotification] = useState({ message: '', type: '' });
+  
+  const [dashboardStats, setDashboardStats] = useState({
+    patients: 1284,
+    appointments: 42,
+    doctors: 18,
+    revenue: 4250,
+  });
+
+  const fetchStats = async () => {
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+      const response = await fetch(`${apiUrl}/reports/summary`);
+      if (response.ok) {
+        const data = await response.json();
+        setDashboardStats({
+          patients: data.total_patients,
+          appointments: data.scheduled_appointments,
+          doctors: data.total_doctors,
+          revenue: data.total_revenue,
+        });
+      }
+    } catch (err) {
+      console.error("Failed to fetch dashboard stats", err);
+    }
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -32,6 +57,7 @@ export default function Dashboard() {
       const payloadBase64 = token.split('.')[1];
       const decodedPayload = JSON.parse(atob(payloadBase64));
       setUserEmail(decodedPayload.sub || "User");
+      fetchStats();
     } catch(e) {
       console.error("Invalid token format");
       router.push("/");
@@ -52,10 +78,10 @@ export default function Dashboard() {
   ];
 
   const stats = [
-    { id: "patients", label: "Total Patients", value: "1,284", change: "+12%", up: true, icon: "👥", color: "#4F46E5" },
-    { id: "appointments", label: "Appointments", value: "42", change: "+5%", up: true, icon: "📅", color: "#06B6D4" },
-    { id: "doctors", label: "Doctors On-Duty", value: "18", change: "-2", up: false, icon: "👨‍⚕️", color: "#8B5CF6" },
-    { id: "billing", label: "Revenue Today", value: "$4,250", change: "+18%", up: true, icon: "💰", color: "#10B981" },
+    { id: "patients", label: "Total Patients", value: dashboardStats.patients.toLocaleString(), change: "+12%", up: true, icon: "👥", color: "#4F46E5" },
+    { id: "appointments", label: "Appointments", value: dashboardStats.appointments.toLocaleString(), change: "+5%", up: true, icon: "📅", color: "#06B6D4" },
+    { id: "doctors", label: "Doctors On-Duty", value: dashboardStats.doctors.toLocaleString(), change: "-2", up: false, icon: "👨‍⚕️", color: "#8B5CF6" },
+    { id: "billing", label: "Revenue Today", value: `₹${parseFloat(dashboardStats.revenue).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`, change: "+18%", up: true, icon: "💰", color: "#10B981" },
   ];
 
   const appointments = [
@@ -273,6 +299,7 @@ export default function Dashboard() {
           onSuccess={(msg) => {
             setNotification({ message: msg, type: 'success' });
             setTimeout(() => setNotification({ message: '', type: '' }), 5000);
+            fetchStats();
           }}
         />
       )}
@@ -283,6 +310,7 @@ export default function Dashboard() {
           onSuccess={(msg) => {
             setNotification({ message: msg, type: 'success' });
             setTimeout(() => setNotification({ message: '', type: '' }), 5000);
+            fetchStats();
           }}
         />
       )}
