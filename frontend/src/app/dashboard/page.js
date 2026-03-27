@@ -52,10 +52,10 @@ export default function Dashboard() {
   ];
 
   const stats = [
-    { label: "Total Patients", value: "1,284", change: "+12%", up: true, icon: "👥", color: "#4F46E5" },
-    { label: "Appointments", value: "42", change: "+5%", up: true, icon: "📅", color: "#06B6D4" },
-    { label: "Doctors On-Duty", value: "18", change: "-2", up: false, icon: "👨‍⚕️", color: "#8B5CF6" },
-    { label: "Revenue Today", value: "$4,250", change: "+18%", up: true, icon: "💰", color: "#10B981" },
+    { id: "patients", label: "Total Patients", value: "1,284", change: "+12%", up: true, icon: "👥", color: "#4F46E5" },
+    { id: "appointments", label: "Appointments", value: "42", change: "+5%", up: true, icon: "📅", color: "#06B6D4" },
+    { id: "doctors", label: "Doctors On-Duty", value: "18", change: "-2", up: false, icon: "👨‍⚕️", color: "#8B5CF6" },
+    { id: "billing", label: "Revenue Today", value: "$4,250", change: "+18%", up: true, icon: "💰", color: "#10B981" },
   ];
 
   const appointments = [
@@ -144,7 +144,11 @@ export default function Dashboard() {
         {/* Stats Grid */}
         <section className="stats-grid">
           {stats.map((stat, i) => (
-            <div key={i} className="stat-card">
+            <div 
+              key={i} 
+              className="stat-card cursor-pointer"
+              onClick={() => setActiveTab(stat.id)}
+            >
               <div className="stat-header">
                 <div className="stat-icon" style={{ background: `${stat.color}20`, color: stat.color }}>
                   {stat.icon}
