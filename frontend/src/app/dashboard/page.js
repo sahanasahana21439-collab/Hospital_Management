@@ -22,10 +22,10 @@ export default function Dashboard() {
   const [notification, setNotification] = useState({ message: '', type: '' });
   
   const [dashboardStats, setDashboardStats] = useState({
-    patients: 1284,
-    appointments: 42,
-    doctors: 18,
-    revenue: 4250,
+    patients: 0,
+    appointments: 0,
+    doctors: 0,
+    revenue: 0,
   });
   
   const [recentAppointments, setRecentAppointments] = useState([]);
