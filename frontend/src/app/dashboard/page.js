@@ -19,6 +19,7 @@ export default function Dashboard() {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [showAppointmentModal, setShowAppointmentModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
+  const [notification, setNotification] = useState({ message: '', type: '' });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const [dashboardStats, setDashboardStats] = useState({

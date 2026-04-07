@@ -16,6 +16,12 @@ export const metadata = {
   description: "Advanced Hospital Management System",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 import { ThemeProvider } from "../context/ThemeContext";
 
 export default function RootLayout({ children }) {
