@@ -19,7 +19,7 @@ export default function Dashboard() {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [showAppointmentModal, setShowAppointmentModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
-  const [notification, setNotification] = useState({ message: '', type: '' });
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const [dashboardStats, setDashboardStats] = useState({
     patients: 0,
@@ -72,6 +72,11 @@ export default function Dashboard() {
     }
   }, [router]);
 
+  // Close mobile menu when tab changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [activeTab]);
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     router.push("/");
@@ -107,8 +112,14 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-container">
+      {/* Mobile Overlay */}
+      <div 
+        className={`mobile-menu-overlay ${isMobileMenuOpen ? 'show' : ''}`} 
+        onClick={() => setIsMobileMenuOpen(false)}
+      ></div>
+
       {/* Sidebar */}
-      <aside className="sidebar flex flex-col justify-between h-screen sticky top-0">
+      <aside className={`sidebar flex flex-col justify-between h-screen sticky top-0 ${isMobileMenuOpen ? 'open' : ''}`}>
         <div>
           <div className="sidebar-logo">
             🏥 Supreme Health
@@ -147,13 +158,21 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="main-dashboard">
         <header className="dashboard-header">
-          <div className="header-title">
-            <span style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Overview</span>
-            <h2>Hospital Dashboard</h2>
+          <div className="header-title flex items-center gap-4">
+            <button 
+              className="menu-toggle-btn"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? '✕' : '☰'}
+            </button>
+            <div>
+              <span style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Overview</span>
+              <h2>Hospital Dashboard</h2>
+            </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+          <div className="header-actions flex items-center gap-4">
             <ThemeToggle />
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative' }} className="hidden md:block">
               <input 
                 type="text" 
                 placeholder="Search..." 
@@ -163,13 +182,13 @@ export default function Dashboard() {
                   borderRadius: '12px',
                   padding: '0.6rem 1rem 0.6rem 2.5rem',
                   color: 'var(--text-primary)',
-                  width: '240px'
+                  width: '200px'
                 }}
               />
               <span style={{ position: 'absolute', left: '0.8rem', top: '50%', transform: 'translateY(-50%)', opacity: 0.5 }}>🔍</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <div style={{ textAlign: 'right' }}>
+              <div style={{ textAlign: 'right' }} className="hidden sm:block">
                 <div style={{ fontSize: '0.875rem', fontWeight: 'bold' }}>{userEmail}</div>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Administrator</div>
               </div>
@@ -211,36 +230,38 @@ export default function Dashboard() {
                 <h3>Recent Appointments</h3>
                 <button className="hover:scale-105 hover:opacity-80 transition-all origin-right" style={{ background: 'none', border: 'none', color: 'var(--primary)', fontWeight: '600', cursor: 'pointer' }}>View All</button>
               </div>
-              <table className="recent-table">
-                <thead>
-                  <tr>
-                    <th>Patient</th>
-                    <th>Doctor</th>
-                    <th>Time</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recentAppointments.length > 0 ? (
-                    recentAppointments.map((apt) => (
-                      <tr key={apt.id}>
-                        <td style={{ fontWeight: '500' }}>{apt.patient_name}</td>
-                        <td>{apt.doctor_name}</td>
-                        <td>{formatTime(apt.appointment_time)}</td>
-                        <td>
-                          <span className={`status-badge status-${(apt.status || 'Scheduled').toLowerCase()}`}>
-                            {apt.status || 'Scheduled'}
-                          </span>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
+              <div className="table-container">
+                <table className="recent-table">
+                  <thead>
                     <tr>
-                      <td colSpan="4" style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>No recent appointments found.</td>
+                      <th>Patient</th>
+                      <th>Doctor</th>
+                      <th>Time</th>
+                      <th>Status</th>
                     </tr>
-                  )}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {recentAppointments.length > 0 ? (
+                      recentAppointments.map((apt) => (
+                        <tr key={apt.id}>
+                          <td style={{ fontWeight: '500' }}>{apt.patient_name}</td>
+                          <td>{apt.doctor_name}</td>
+                          <td>{formatTime(apt.appointment_time)}</td>
+                          <td>
+                            <span className={`status-badge status-${(apt.status || 'Scheduled').toLowerCase()}`}>
+                              {apt.status || 'Scheduled'}
+                            </span>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="4" style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>No recent appointments found.</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             {/* Quick Actions / Activity Feed */}

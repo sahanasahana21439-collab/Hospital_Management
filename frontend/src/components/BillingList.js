@@ -80,7 +80,7 @@ export default function BillingList() {
             <p className="text-muted-foreground mt-2 max-w-xs mx-auto">Either all invoices are cleared or no records match your search.</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="table-container">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-muted/50 border-b border-border">
